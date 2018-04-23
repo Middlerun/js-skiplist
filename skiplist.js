@@ -78,20 +78,27 @@ function add(skipList, nodeToAdd, p = 0.35) {
   }
 
   let lastNodeAdded = null
+  let lastLayerUpdated = null
 
-  for (let i=layerInsertPoints.length-1; i>=0; i--) {
-    currentNode = layerInsertPoints[i]
+  for (let i=layerInsertPoints.length-1; i>=-1; i--) {
+    if (i === -1) {
+      currentNode = createHead()
+      currentNode.down = skipList.down
+      skipList.down = currentNode
+    } else {
+      currentNode = layerInsertPoints[i]
+    }
     const isDataLayer = !currentNode.down
     const newNode = cloneNode(nodeToAdd, isDataLayer)
     newNode.down = lastNodeAdded
     newNode.next = currentNode.next
     currentNode.next = newNode
     lastNodeAdded = newNode
+    lastLayerUpdated = i
 
     if (Math.random() >= p) break
   }
 
-  skipList.down = addLayers(skipList.down, p)
   return skipList
 }
 
