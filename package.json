@@ -1,0 +1,9 @@
+{
+  "name": "skiplist",
+  "version": "0.0.1",
+  "description": "A JavaScript skip list implementation",
+  "main": "index.js",
+  "repository": "https://github.com/Middlerun/js-skiplist.git",
+  "author": "Eddie McLean <middlerun@gmail.com>",
+  "license": "MIT"
+}

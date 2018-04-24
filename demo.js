@@ -1,4 +1,4 @@
-const sl = require('./skiplist')
+const sl = require('./index')
 
 const array = [
 	{key: 'a', value: 'string key 1'},
