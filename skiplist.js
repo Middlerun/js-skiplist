@@ -55,10 +55,11 @@ function remove(skipList, key) {
   let currentNode = skipList.down
 
   while (currentNode) {
-    if (currentNode.next && currentNode.next.key === key) {
+    if (currentNode.next && cmpKey(currentNode.next.key, key) == 0) {
       currentNode.next = currentNode.next.next
       currentNode = currentNode.down
-    } else if (currentNode.next === null || currentNode.next.key > key) {
+    } else if (currentNode.next === null ||
+      cmpKey(currentNode.next.key, key) > 0) {
       currentNode = currentNode.down
     } else {
       currentNode = currentNode.next
@@ -78,11 +79,16 @@ function add(skipList, nodeToAdd) {
   let layerInsertPoints = []
 
   while (currentNode) {
+    if (currentNode.key && cmp(currentNode, nodeToAdd) === 0) {
+      console.log(currentNode)
+      console.log(nodeToAdd)
+      throw new Error('duplicate key')
+    }
     if (
       (currentNode.key === null &&
-      (currentNode.next === null || cmp(currentNode.next, nodeToAdd) >= 0))
+      (currentNode.next === null || cmp(currentNode.next, nodeToAdd) > 0))
       || (currentNode.key !== null && cmp(currentNode, nodeToAdd) < 0 &&
-        (currentNode.next === null || cmp(currentNode.next, nodeToAdd) >= 0))
+        (currentNode.next === null || cmp(currentNode.next, nodeToAdd) > 0))
     ) {
       layerInsertPoints.push(currentNode)
       currentNode = currentNode.down
@@ -135,6 +141,7 @@ function create(array, p = 0.35) {
   head.add = (newNode) => add(head, newNode)
   head.remove = (key) => remove(head, key)
   head.print = (includeIds) => print(head, includeIds)
+  head.count = () => count(head)
 
   // Add metadata
   head.p = p
@@ -147,6 +154,8 @@ function cmp(a, b) {
 }
 
 function cmpKey(a, b) {
+  if (a === null && b !== null) return -1
+  if (b === null && a !== null) return 1
   if (Number.isInteger(a) && typeof b === 'string') return -1
   if (Number.isInteger(b) && typeof a === 'string') return 1
   if (a < b) return -1
@@ -212,6 +221,14 @@ function print(skipList, includeIds = false) {
 
     currentLayer = currentLayer.down
   }
+}
+
+function count(skipList) {
+  let layer = skipList
+  while (layer.down) {
+    layer = layer.down
+  }
+  return nodesInLayer(layer)
 }
 
 function nodesInLayer(layer) {
