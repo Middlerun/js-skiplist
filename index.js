@@ -49,6 +49,39 @@ function lookupNode(skipList, key, returnNodesTraversed = false) {
   return null
 }
 
+function getAll(skipList, test = function () { return true }) {
+  let nodes = []
+  each(skipList, function (node) {
+    if (test(node)) {
+      nodes.push({ key: node.key, value: node.value })
+    }
+  })
+  return nodes
+}
+
+function getKeys(skipList) {
+  let keys = []
+  each(skipList, function (node) {
+    keys.push(node.key)
+  })
+  return keys
+}
+
+function each(skipList, callback = function () {}) {
+  let currentNode = skipList
+  while (currentNode.down) {
+    currentNode = currentNode.down
+  }
+
+  currentNode = currentNode.next
+  while (currentNode) {
+    callback(currentNode)
+    currentNode = currentNode.next
+  }
+
+  return skipList
+}
+
 function remove(skipList, key) {
   validateKey(key)
 
@@ -136,12 +169,15 @@ function create(array, p = 0.35) {
   head.down = layer
 
   // Add methods
-  head.get = (key, returnNodesTraversed) => get(head, key, returnNodesTraversed)
-  head.update = (key, value) => update(head, key, value)
-  head.add = (newNode) => add(head, newNode)
-  head.remove = (key) => remove(head, key)
-  head.print = (includeIds) => print(head, includeIds)
-  head.count = () => count(head)
+  head.get = function (key, returnNodesTraversed) { return get(head, key, returnNodesTraversed) }
+  head.update = function (key, value) { return update(head, key, value) }
+  head.add = function (newNode) { return add(head, newNode) }
+  head.remove = function (key) { return remove(head, key) }
+  head.print = function (includeIds) { return print(head, includeIds) }
+  head.count = function () { return count(head) }
+  head.each = function (callback) { return each(head, callback) }
+  head.getKeys = function () { return getKeys(head) }
+  head.getAll = function () { return getAll(head) }
 
   // Add metadata
   head.p = p
@@ -316,4 +352,8 @@ module.exports = {
   remove,
   get,
   print,
+  count,
+  each,
+  getAll,
+  getKeys,
 }
