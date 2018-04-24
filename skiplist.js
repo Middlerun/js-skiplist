@@ -1,8 +1,9 @@
-function lookup(skipList, key, returnNodesTraversed = false) {
+function get(skipList, key, returnNodesTraversed = false) {
   const node = lookupNode(skipList, key, returnNodesTraversed)
   if (!node) {
     return null
   }
+  if (returnNodesTraversed) return node
   return node.value
 }
 
@@ -16,9 +17,7 @@ function update(skipList, key, value) {
 }
 
 function lookupNode(skipList, key, returnNodesTraversed = false) {
-  if (key === null) {
-    throw new Error('invalid lookup key')
-  }
+  validateKey(key)
 
   let currentNode = skipList
   let nodesTraversed = 0
@@ -35,7 +34,7 @@ function lookupNode(skipList, key, returnNodesTraversed = false) {
       }
     } else {
       if (currentNode.next) {
-        if (currentNode.next.key <= key) {
+        if (cmpKey(currentNode.next.key, key) <= 0) {
           currentNode = currentNode.next
         } else {
           currentNode = currentNode.down
@@ -51,9 +50,7 @@ function lookupNode(skipList, key, returnNodesTraversed = false) {
 }
 
 function remove(skipList, key) {
-  if (key === null) {
-    throw new Error('invalid delete key')
-  }
+  validateKey(key)
 
   let currentNode = skipList.down
 
@@ -83,9 +80,9 @@ function add(skipList, nodeToAdd) {
   while (currentNode) {
     if (
       (currentNode.key === null &&
-      (currentNode.next === null || currentNode.next.key >= nodeToAdd.key))
-      || (currentNode.key !== null && currentNode.key < nodeToAdd.key &&
-        (currentNode.next === null || currentNode.next.key >= nodeToAdd.key))
+      (currentNode.next === null || cmp(currentNode.next, nodeToAdd) >= 0))
+      || (currentNode.key !== null && cmp(currentNode, nodeToAdd) < 0 &&
+        (currentNode.next === null || cmp(currentNode.next, nodeToAdd) >= 0))
     ) {
       layerInsertPoints.push(currentNode)
       currentNode = currentNode.down
@@ -123,7 +120,7 @@ function create(array, p = 0.35) {
   // Verify valid input
   array.forEach(validateNode)
 
-  array.sort((a, b) => a.key - b.key)
+  array.sort(cmp)
 
   let layer = arrayToLinkedList(array)
 
@@ -133,7 +130,7 @@ function create(array, p = 0.35) {
   head.down = layer
 
   // Add methods
-  head.lookup = (key) => lookup(head, key)
+  head.get = (key, returnNodesTraversed) => get(head, key, returnNodesTraversed)
   head.update = (key, value) => update(head, key, value)
   head.add = (newNode) => add(head, newNode)
   head.remove = (key) => remove(head, key)
@@ -145,11 +142,31 @@ function create(array, p = 0.35) {
   return head
 }
 
+function cmp(a, b) {
+  return cmpKey(a.key, b.key)
+}
+
+function cmpKey(a, b) {
+  if (Number.isInteger(a) && typeof b === 'string') return -1
+  if (Number.isInteger(b) && typeof a === 'string') return 1
+  if (a < b) return -1
+  if (a > b) return 1
+  return 0
+}
+
 function validateNode(node) {
   if (typeof node !== 'object' ||
     !node.hasOwnProperty('key') ||
     !node.hasOwnProperty('value')) {
     throw new Error('invalid node')
+  }
+  validateKey(node.key)
+}
+
+function validateKey(key) {
+  if (!Number.isInteger(key) &&
+    typeof key !== 'string') {
+    throw new Error('invalid key')
   }
 }
 
@@ -280,6 +297,6 @@ module.exports = {
   add,
   update,
   remove,
-  lookup,
+  get,
   print,
 }

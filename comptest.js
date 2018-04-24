@@ -9,7 +9,7 @@ for (let power=1; power < 7; power++) {
 
 	for (let i=0; i<n; i++) {
 		array[i] = {
-			key: Math.random(),
+			key: i,
 			value: 1,
 		}
 	}
@@ -20,7 +20,7 @@ for (let power=1; power < 7; power++) {
 
 	for (let i=0; i<testIterations; i++) {
 		const key = array[Math.floor(Math.random() * n)].key
-		const nodesTraversed = sl.lookup(skipList, key, true)
+		const nodesTraversed = skipList.get(key, true)
 		runningTotal += nodesTraversed
 	}
 

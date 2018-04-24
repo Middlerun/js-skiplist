@@ -19,7 +19,7 @@ for (let p=0.25; p < 0.45; p+=0.025) {
 	for (let i=0; i<testIterations; i++) {
 		const skipList = sl.create(array, p)
 		const key = array[Math.floor(Math.random() * n)].key
-		const nodesTraversed = sl.lookup(skipList, key, true)
+		const nodesTraversed = skipList.get(key, true)
 		runningTotal += nodesTraversed
 	}
 

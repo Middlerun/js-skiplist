@@ -1,6 +1,8 @@
 const sl = require('./skiplist')
 
 const array = [
+	{key: 'a', value: 'string key 1'},
+	{key: 'herp', value: 'string key 2'},
 	{key: 4, value: 'four'},
 	{key: 3, value: 'three'},
 	{key: 7, value: 'seven'},
@@ -13,35 +15,31 @@ const array = [
 
 const printIds = false
 
+console.log('Create')
 let skipList = sl.create(array)
-
 skipList.print(printIds)
-
-console.log(skipList.lookup(9))
-
+console.log(skipList.get(9))
 console.log()
 
-
+console.log('Add with numeric key')
 skipList.add({key: 10, value: 'ten'})
-
 skipList.print(printIds)
-
-console.log(skipList.lookup(10))
-
+console.log(skipList.get(10))
 console.log()
 
+console.log('Add with string key')
+skipList.add({key: 'foo', value: {bar: 'bar'}})
+skipList.print(printIds)
+console.log(skipList.get(10))
+console.log()
 
+console.log('Remove')
 skipList.remove(7)
-
 skipList.print(printIds)
-
-console.log(skipList.lookup(7))
-
+console.log(skipList.get(7))
 console.log()
 
-
+console.log('Update')
 skipList.update(12, 'three times four')
-
 skipList.print(printIds)
-
-console.log(skipList.lookup(12))
+console.log(skipList.get(12))
