@@ -57,7 +57,7 @@ function remove(skipList, key) {
   return skipList
 }
 
-function add(skipList, nodeToAdd, p = 0.35) {
+function add(skipList, nodeToAdd) {
   validateNode(nodeToAdd)
 
   let currentNode = skipList.down
@@ -96,7 +96,7 @@ function add(skipList, nodeToAdd, p = 0.35) {
     lastNodeAdded = newNode
     lastLayerUpdated = i
 
-    if (Math.random() >= p) break
+    if (Math.random() >= skipList.p) break
   }
 
   return skipList
@@ -117,9 +117,12 @@ function create(array, p = 0.35) {
 
   // Add methods
   head.lookup = (key) => lookup(head, key)
-  head.add = (newNode) => add(head, newNode, p)
+  head.add = (newNode) => add(head, newNode)
   head.remove = (key) => remove(head, key)
-  head.print = () => print(head)
+  head.print = (includeIds) => print(head, includeIds)
+
+  // Add metadata
+  head.p = p
 
   return head
 }
@@ -230,10 +233,10 @@ function createHead() {
 }
 
 const cloneNode = (function () {
-  let id = 0
+  let nextId = 1
 
   return function (node, isDataNode = false) {
-    id++
+    const id = nextId++
 
     if (isDataNode) {
       return {
