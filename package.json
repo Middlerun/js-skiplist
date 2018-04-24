@@ -2,8 +2,16 @@
   "name": "skiplist",
   "version": "0.0.1",
   "description": "A JavaScript skip list implementation",
+  "scripts": {
+    "test": "./node_modules/.bin/jest",
+    "test:watch": "./node_modules/.bin/jest --watch"
+  },
   "main": "index.js",
   "repository": "https://github.com/Middlerun/js-skiplist.git",
   "author": "Eddie McLean <middlerun@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "jest": "^22.4.3"
+  }
 }

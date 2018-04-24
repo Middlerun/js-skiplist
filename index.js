@@ -177,7 +177,7 @@ function create(array, p = 0.35) {
   head.count = function () { return count(head) }
   head.each = function (callback) { return each(head, callback) }
   head.getKeys = function () { return getKeys(head) }
-  head.getAll = function () { return getAll(head) }
+  head.getAll = function (test) { return getAll(head, test) }
 
   // Add metadata
   head.p = p
