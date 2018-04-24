@@ -1,4 +1,21 @@
 function lookup(skipList, key, returnNodesTraversed = false) {
+  const node = lookupNode(skipList, key, returnNodesTraversed)
+  if (!node) {
+    return null
+  }
+  return node.value
+}
+
+function update(skipList, key, value) {
+  const node = lookupNode(skipList, key)
+  if (!node) {
+    return null
+  }
+  node.value = value
+  return skipList
+}
+
+function lookupNode(skipList, key, returnNodesTraversed = false) {
   if (key === null) {
     throw new Error('invalid lookup key')
   }
@@ -14,7 +31,7 @@ function lookup(skipList, key, returnNodesTraversed = false) {
         currentNode = currentNode.down
       } else {
         if (returnNodesTraversed) return nodesTraversed
-        return currentNode.value
+        return currentNode
       }
     } else {
       if (currentNode.next) {
@@ -117,6 +134,7 @@ function create(array, p = 0.35) {
 
   // Add methods
   head.lookup = (key) => lookup(head, key)
+  head.update = (key, value) => update(head, key, value)
   head.add = (newNode) => add(head, newNode)
   head.remove = (key) => remove(head, key)
   head.print = (includeIds) => print(head, includeIds)
@@ -260,6 +278,7 @@ const cloneNode = (function () {
 module.exports = {
   create,
   add,
+  update,
   remove,
   lookup,
   print,

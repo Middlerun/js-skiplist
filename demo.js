@@ -17,23 +17,31 @@ let skipList = sl.create(array)
 
 skipList.print(printIds)
 
-let value = skipList.lookup(9)
-console.log(value)
+console.log(skipList.lookup(9))
 
 console.log()
+
 
 skipList.add({key: 10, value: 'ten'})
 
 skipList.print(printIds)
 
-value = skipList.lookup(10)
-console.log(value)
+console.log(skipList.lookup(10))
 
 console.log()
+
 
 skipList.remove(7)
 
 skipList.print(printIds)
 
-value = skipList.lookup(7)
-console.log(value)
+console.log(skipList.lookup(7))
+
+console.log()
+
+
+skipList.update(12, 'three times four')
+
+skipList.print(printIds)
+
+console.log(skipList.lookup(12))
