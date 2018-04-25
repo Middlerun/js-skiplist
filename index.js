@@ -49,10 +49,10 @@ function lookupNode(skipList, key, returnNodesTraversed = false) {
   return null
 }
 
-function getAll(skipList, test = function () { return true }) {
+function getAll(skipList, filter = function () { return true }) {
   let nodes = []
   each(skipList, function (node) {
-    if (test(node)) {
+    if (filter(node)) {
       nodes.push({ key: node.key, value: node.value })
     }
   })
@@ -177,7 +177,7 @@ function create(array, p = 0.35) {
   head.count = function () { return count(head) }
   head.each = function (callback) { return each(head, callback) }
   head.getKeys = function () { return getKeys(head) }
-  head.getAll = function (test) { return getAll(head, test) }
+  head.getAll = function (filter) { return getAll(head, filter) }
 
   // Add metadata
   head.p = p
