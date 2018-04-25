@@ -1,16 +1,16 @@
 const sl = require('./index')
 
 const array = [
-	{key: 'a', value: 'string key 1'},
-	{key: 'herp', value: 'string key 2'},
-	{key: 4, value: 'four'},
-	{key: 3, value: 'three'},
-	{key: 7, value: 'seven'},
-	{key: 2, value: 'two'},
-	{key: 12, value: 'twelve'},
-	{key: 9, value: 'nine'},
-	{key: 5, value: 'five'},
-	{key: 19, value: 'nineteen'},
+  {key: 'a', value: 'string key 1'},
+  {key: 'herp', value: 'string key 2'},
+  {key: 4, value: 'four'},
+  {key: 3, value: 'three'},
+  {key: 7, value: 'seven'},
+  {key: 2, value: 'two'},
+  {key: 12, value: 'twelve'},
+  {key: 9, value: 'nine'},
+  {key: 5, value: 'five'},
+  {key: 19, value: 'nineteen'},
 ]
 
 const printIds = false

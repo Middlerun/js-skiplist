@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 const expect = require('chai').expect
 
 const sl = require('./index')
@@ -52,10 +54,10 @@ describe('skiplist', () => {
     })
 
     it('filters using the given callback', () => {
-      const test = function(node) {
+      const filter = function (node) {
         return node.key === 'herp' || (Number.isInteger(node.key) && node.key > 3)
       }
-      expect(skiplist.getAll(test)).to.deep.equal([
+      expect(skiplist.getAll(filter)).to.deep.equal([
         {key: 4, value: 'four'},
         {key: 7, value: 'seven'},
         {key: 'herp', value: 'string key 2'},

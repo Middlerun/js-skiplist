@@ -88,7 +88,7 @@ function remove(skipList, key) {
   let currentNode = skipList.down
 
   while (currentNode) {
-    if (currentNode.next && cmpKey(currentNode.next.key, key) == 0) {
+    if (currentNode.next && cmpKey(currentNode.next.key, key) === 0) {
       currentNode.next = currentNode.next.next
       currentNode = currentNode.down
     } else if (currentNode.next === null ||
@@ -119,8 +119,8 @@ function add(skipList, nodeToAdd) {
     }
     if (
       (currentNode.key === null &&
-      (currentNode.next === null || cmp(currentNode.next, nodeToAdd) > 0))
-      || (currentNode.key !== null && cmp(currentNode, nodeToAdd) < 0 &&
+      (currentNode.next === null || cmp(currentNode.next, nodeToAdd) > 0)) ||
+      (currentNode.key !== null && cmp(currentNode, nodeToAdd) < 0 &&
         (currentNode.next === null || cmp(currentNode.next, nodeToAdd) > 0))
     ) {
       layerInsertPoints.push(currentNode)
@@ -131,9 +131,8 @@ function add(skipList, nodeToAdd) {
   }
 
   let lastNodeAdded = null
-  let lastLayerUpdated = null
 
-  for (let i=layerInsertPoints.length-1; i>=-1; i--) {
+  for (let i = layerInsertPoints.length - 1; i >= -1; i--) {
     if (i === -1) {
       currentNode = createHead()
       currentNode.down = skipList.down
@@ -147,7 +146,6 @@ function add(skipList, nodeToAdd) {
     newNode.next = currentNode.next
     currentNode.next = newNode
     lastNodeAdded = newNode
-    lastLayerUpdated = i
 
     if (Math.random() >= skipList.p) break
   }
@@ -307,7 +305,7 @@ function arrayToLinkedList(array) {
   let head = createHead()
   let currentNode = head
 
-  for (let i=0; i<array.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     const newNode = cloneNode(array[i], true)
 
     currentNode.next = newNode
